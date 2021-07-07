@@ -42,11 +42,12 @@ app.post('/verify', async (req, res, next) => {
                 token: code
             }
 
-            await client.messages.create({
+            let tmsg = await client.messages.create({
                 body: `Verification code is ${code}`,
                 to: req.body.code + req.body.phn,  // Text this number
                 from: '+13124677610' // From a valid Twilio number
             })
+            console.log("🚀 ~ file: app.js ~ line 50 ~ app.post ~ tmsg", tmsg)
 
             await Token.create(obj)
             return res.status(200).json({ success: true })
