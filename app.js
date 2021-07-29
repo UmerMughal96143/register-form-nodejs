@@ -53,7 +53,7 @@ app.post('/verify', async (req, res, next) => {
             return res.status(200).json({ success: true })
         }
 
-        return res.status(409).json({ success: false ,  })
+        return res.status(409).json({ success: false, })
 
     } catch (error) {
         console.log("🚀 ~ file: app.js ~ line 30 ~ app.post ~ error", error)
@@ -93,7 +93,7 @@ app.post('/register', async (req, res, next) => {
 
         await User.create(obj)
         await Token.findOneAndDelete({ phone: req.body.phoneCode + req.body.phone })
-        res.status(200).json({ success: true , msg : "Signup has been completed"})
+        res.status(200).json({ success: true, msg: "Signup has been completed" })
     } catch (error) {
         console.log("🚀 ~ file: app.js ~ line 30 ~ app.post ~ error", error)
 
@@ -102,6 +102,36 @@ app.post('/register', async (req, res, next) => {
 })
 
 
+app.post('/login', async (req, res, next) => {
+
+    try {
+        const {email,password} = req.body
+        console.log("🚀 ~ file: app.js ~ line 109 ~ app.post ~ req.body", req.body)
+        let user = await User.findOne({ email })
+
+
+        if (!user || !email || !password) {
+            return res.status(400).json({ success: false, msg: " Invalid Credentials" })
+        }
+
+        const isMatch = await bcrypt.compare(
+            password,
+            user.password
+          );
+    
+          if (!isMatch) {
+            return res.status(400).json({ success: false, msg: " Invalid Credentials" })
+          }
+
+
+
+        res.status(200).json({ success: true, msg: "Successfully Login" })
+    } catch (error) {
+        console.log("🚀 ~ file: app.js ~ line 30 ~ app.post ~ error", error)
+
+    }
+
+})
 
 app.listen(PORT, () => {
     console.log(
