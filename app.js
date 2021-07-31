@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.static(__dirname + '/public'))
 
 var accountSid = 'ACbc1da315d4d806563ee930894998328a'; // Your Account SID from www.twilio.com/console
-var authToken = '248cb29d164033f4d8368c6e9b051a4a';
+var authToken = 'ea0a5ee0a70ef2cb9e61129c5894c91d';
 
 
 app.post('/verify', async (req, res, next) => {
